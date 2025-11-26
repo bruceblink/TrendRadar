@@ -141,6 +141,7 @@ def load_config() -> dict:
             "FREQUENCY_WEIGHT": config_data["weight"]["frequency_weight"],
             "HOTNESS_WEIGHT": config_data["weight"]["hotness_weight"],
         },
+        "NEWS_API_URL": config_data["news"].get("api_url","https://newsnow.busiyi.world"),
         "PLATFORMS": config_data["platforms"],
     }
 
@@ -478,7 +479,7 @@ class DataFetcher:
             id_value = id_info
             alias = id_value
 
-        url = f"https://newsnow.busiyi.world/api/s?id={id_value}&latest"
+        url = f"{CONFIG["NEWS_API_URL"]}/api/s?id={id_value}&latest"
 
         proxies = None
         if self.proxy_url:

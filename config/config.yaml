@@ -95,6 +95,10 @@ weight:
   frequency_weight: 0.3 # 频次权重
   hotness_weight: 0.1 # 热度权重
 
+# 新闻数据源的 API_URL
+news:
+  api_url: https://news.likanug.top
+
 # name 可以定义任意名称，只具有显示作用，即使项目运行了几天后，忽然改掉 name 也不会影响代码的正常运行
 platforms:
   - id: "toutiao"
