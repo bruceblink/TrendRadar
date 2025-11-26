@@ -56,7 +56,7 @@ SMTP_CONFIGS = {
 
 
 # === 配置管理 ===
-def load_config():
+def load_config() -> dict:
     """加载配置文件"""
     config_path = os.environ.get("CONFIG_PATH", "config/config.yaml")
 
@@ -3478,7 +3478,7 @@ def send_to_notifications(
             report_type,
             html_file_path,
             email_smtp_server,
-            email_smtp_port,
+            int(email_smtp_port),
         )
 
     if not results:
@@ -3875,6 +3875,7 @@ def send_to_email(
     custom_smtp_port: Optional[int] = None,
 ) -> bool:
     """发送邮件通知"""
+    global smtp_server, smtp_port
     try:
         if not html_file_path or not Path(html_file_path).exists():
             print(f"错误：HTML文件不存在或未提供: {html_file_path}")
@@ -3902,7 +3903,7 @@ def send_to_email(
             # 使用预设配置
             config = SMTP_CONFIGS[domain]
             smtp_server = config["server"]
-            smtp_port = config["port"]
+            smtp_port = int(config["port"])
             use_tls = config["encryption"] == "TLS"
         else:
             print(f"未识别的邮箱服务商: {domain}，使用通用 SMTP 配置")
@@ -4736,7 +4737,6 @@ class NewsAnalyzer:
             print(f"HTML报告已生成: {html_file}")
 
             # 发送实时通知（如果需要）
-            summary_html = None
             if mode_strategy["should_send_realtime"]:
                 self._send_notification_if_needed(
                     stats,
